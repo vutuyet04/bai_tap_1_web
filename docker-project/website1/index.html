@@ -2,13 +2,896 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Website 1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Dashboard - Vũ Tuyết</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            color: white;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    #4338ca 0,
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at bottom right,
+                    #0f766e 0,
+                    transparent 35%
+                ),
+                #0f172a;
+
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 35px;
+        }
+
+        .title h1 {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .title p {
+            color: #cbd5e1;
+            font-size: 16px;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            padding: 12px 18px;
+
+            background: rgba(255,255,255,0.08);
+
+            border: 1px solid rgba(255,255,255,0.15);
+
+            border-radius: 30px;
+        }
+
+        .dot {
+            width: 11px;
+            height: 11px;
+
+            border-radius: 50%;
+
+            background: #22c55e;
+
+            box-shadow:
+                0 0 10px #22c55e;
+        }
+
+
+        /* =========================
+           BUTTON
+        ========================= */
+
+        .button-area {
+            margin-bottom: 30px;
+        }
+
+        button {
+            border: none;
+
+            padding: 14px 24px;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #8b5cf6
+                );
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 10px 25px
+                rgba(99,102,241,0.3);
+
+            transition: 0.25s;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 15px 30px
+                rgba(99,102,241,0.5);
+        }
+
+
+        /* =========================
+           STATISTICS
+        ========================= */
+
+        .stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 20px;
+
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            padding: 25px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255,255,255,0.08);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.12);
+
+            backdrop-filter: blur(15px);
+
+            transition: 0.25s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+
+            background:
+                rgba(255,255,255,0.12);
+        }
+
+        .stat-icon {
+            font-size: 30px;
+
+            margin-bottom: 15px;
+        }
+
+        .stat-card p {
+            color: #94a3b8;
+
+            margin-bottom: 8px;
+        }
+
+        .stat-card h2 {
+            font-size: 30px;
+        }
+
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        .section-title {
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            margin-bottom: 20px;
+        }
+
+        .section-title h2 {
+            font-size: 24px;
+        }
+
+        .student-count {
+            color: #94a3b8;
+        }
+
+
+        /* =========================
+           STUDENT CARDS
+        ========================= */
+
+        .students {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 22px;
+        }
+
+        .student-card {
+            padding: 25px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255,255,255,0.08);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.12);
+
+            backdrop-filter:
+                blur(15px);
+
+            transition: 0.25s;
+        }
+
+        .student-card:hover {
+            transform:
+                translateY(-7px);
+
+            box-shadow:
+                0 20px 35px
+                rgba(0,0,0,0.25);
+
+            background:
+                rgba(255,255,255,0.12);
+        }
+
+
+        /* =========================
+           CARD TOP
+        ========================= */
+
+        .student-top {
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            margin-bottom: 20px;
+        }
+
+        .avatar {
+            width: 60px;
+            height: 60px;
+
+            display: flex;
+
+            justify-content:
+                center;
+
+            align-items: center;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #a855f7
+                );
+
+            font-size: 23px;
+
+            font-weight: bold;
+
+            box-shadow:
+                0 8px 20px
+                rgba(99,102,241,0.35);
+        }
+
+
+        /* =========================
+           BADGES
+        ========================= */
+
+        .badge {
+            padding: 7px 13px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+        }
+
+        .cao {
+            background:
+                rgba(34,197,94,0.15);
+
+            color: #4ade80;
+        }
+
+        .trungbinh {
+            background:
+                rgba(234,179,8,0.15);
+
+            color: #facc15;
+        }
+
+        .thap {
+            background:
+                rgba(239,68,68,0.15);
+
+            color: #f87171;
+        }
+
+
+        /* =========================
+           STUDENT INFORMATION
+        ========================= */
+
+        .student-name {
+            font-size: 20px;
+
+            font-weight: bold;
+
+            margin-bottom: 12px;
+        }
+
+        .money {
+            color: #94a3b8;
+
+            font-size: 15px;
+        }
+
+        .money span {
+            display: block;
+
+            margin-top: 5px;
+
+            color: #a78bfa;
+
+            font-size: 23px;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           LOADING
+        ========================= */
+
+        .loading {
+            grid-column: 1 / -1;
+
+            text-align: center;
+
+            padding: 50px;
+
+            color: #94a3b8;
+        }
+
+
+        /* =========================
+           ERROR
+        ========================= */
+
+        .error {
+            grid-column: 1 / -1;
+
+            padding: 25px;
+
+            border-radius: 15px;
+
+            background:
+                rgba(239,68,68,0.15);
+
+            border:
+                1px solid
+                rgba(239,68,68,0.3);
+
+            color: #fca5a5;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .students {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .stats {
+                grid-template-columns:
+                    1fr;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 25px 15px;
+            }
+
+            .header {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 20px;
+            }
+
+            .title h1 {
+                font-size: 30px;
+            }
+
+            .students {
+                grid-template-columns:
+                    1fr;
+            }
+        }
+    </style>
 </head>
+
+
 <body>
-    <h1>WEBSITE 1</h1>
-    <h2>vutuyet.id.vn</h2>
-    <p>Website 1 đang chạy bằng Nginx + Docker.</p>
+
+<div class="container">
+
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <div class="header">
+
+        <div class="title">
+
+            <h1>
+                🎓 Student Dashboard
+            </h1>
+
+            <p>
+                Quản lý dữ liệu sinh viên
+                từ Node-RED API
+            </p>
+
+        </div>
+
+
+        <div class="status">
+
+            <div class="dot"></div>
+
+            API Online
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         BUTTON
+    ========================= -->
+
+    <div class="button-area">
+
+        <button onclick="loadStudents()">
+
+            🚀 Lấy dữ liệu từ API
+
+        </button>
+
+    </div>
+
+
+    <!-- =========================
+         STATISTICS
+    ========================= -->
+
+    <div class="stats">
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                👨‍🎓
+            </div>
+
+            <p>
+                Tổng sinh viên
+            </p>
+
+            <h2 id="totalStudents">
+                --
+            </h2>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                💰
+            </div>
+
+            <p>
+                Tổng số tiền
+            </p>
+
+            <h2 id="totalMoney">
+                --
+            </h2>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                🏆
+            </div>
+
+            <p>
+                Mức Cao
+            </p>
+
+            <h2 id="highStudents">
+                --
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         STUDENT LIST
+    ========================= -->
+
+    <div class="section-title">
+
+        <h2>
+            📋 Danh sách sinh viên
+        </h2>
+
+        <div
+            class="student-count"
+            id="studentCount"
+        >
+            Đang tải...
+        </div>
+
+    </div>
+
+
+    <div
+        id="students"
+        class="students"
+    >
+
+        <div class="loading">
+
+            ⏳ Đang tải dữ liệu...
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =========================
+   GỌI NODE-RED API
+========================= */
+
+async function loadStudents() {
+
+
+    const container =
+        document.getElementById(
+            "students"
+        );
+
+
+    container.innerHTML = `
+
+        <div class="loading">
+
+            ⏳ Đang lấy dữ liệu từ API...
+
+        </div>
+
+    `;
+
+
+    try {
+
+
+        /*
+         * Gọi API thông qua Nginx
+         */
+
+        const response =
+            await fetch(
+                "/api/tacke"
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "API không phản hồi"
+            );
+
+        }
+
+
+        /*
+         * Chuyển JSON thành JavaScript
+         */
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Dữ liệu API:",
+            data
+        );
+
+
+        /* =========================
+           THỐNG KÊ
+        ========================= */
+
+
+        const students =
+            data.dssv || [];
+
+
+        const total =
+            students.length;
+
+
+        const totalMoney =
+            students.reduce(
+                function(sum, student) {
+
+                    return sum +
+                        Number(
+                            student.money
+                        );
+
+                },
+                0
+            );
+
+
+        const high =
+            students.filter(
+                function(student) {
+
+                    return student.level
+                        === "Cao";
+
+                }
+            ).length;
+
+
+        document.getElementById(
+            "totalStudents"
+        ).innerText = total;
+
+
+        document.getElementById(
+            "totalMoney"
+        ).innerText =
+            totalMoney.toLocaleString(
+                "vi-VN"
+            ) + " đ";
+
+
+        document.getElementById(
+            "highStudents"
+        ).innerText = high;
+
+
+        document.getElementById(
+            "studentCount"
+        ).innerText =
+            total +
+            " sinh viên";
+
+
+        /* =========================
+           XÓA LOADING
+        ========================= */
+
+        container.innerHTML = "";
+
+
+        /* =========================
+           TẠO CARD
+        ========================= */
+
+        students.forEach(
+            function(student) {
+
+
+                let badgeClass =
+                    "thap";
+
+
+                if (
+                    student.level
+                    === "Cao"
+                ) {
+
+                    badgeClass =
+                        "cao";
+
+                }
+
+
+                else if (
+                    student.level
+                    === "Trung bình"
+                ) {
+
+                    badgeClass =
+                        "trungbinh";
+
+                }
+
+
+                /*
+                 * Lấy chữ cái đầu
+                 */
+
+                const avatar =
+                    student.name
+                    .trim()
+                    .charAt(0)
+                    .toUpperCase();
+
+
+                /*
+                 * Tạo card
+                 */
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "student-card";
+
+
+                card.innerHTML = `
+
+                    <div class="student-top">
+
+                        <div class="avatar">
+
+                            ${avatar}
+
+                        </div>
+
+
+                        <div
+                            class="badge
+                            ${badgeClass}"
+                        >
+
+                            ${student.level}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="student-name">
+
+                        ${student.name}
+
+                    </div>
+
+
+                    <div class="money">
+
+                        Số tiền
+
+                        <span>
+
+                            ${Number(
+                                student.money
+                            ).toLocaleString(
+                                "vi-VN"
+                            )} đ
+
+                        </span>
+
+                    </div>
+
+                `;
+
+
+                container.appendChild(
+                    card
+                );
+
+            }
+        );
+
+
+    }
+
+
+    catch (error) {
+
+
+        console.error(
+            error
+        );
+
+
+        container.innerHTML = `
+
+            <div class="error">
+
+                ❌ Không thể kết nối
+                tới Node-RED API.
+
+                <br><br>
+
+                Vui lòng kiểm tra
+                Node-RED và Nginx.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/*
+ * Tự động gọi API
+ * khi mở website
+ */
+
+loadStudents();
+
+
+</script>
+
+
 </body>
-
-
 </html>

@@ -8,6 +8,17 @@ services:
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
       - ./website1:/usr/share/nginx/website1:ro
       - ./website2:/usr/share/nginx/website2:ro
+    depends_on:
+      - nodered
+    restart: unless-stopped
+
+  nodered:
+    image: nodered/node-red:latest
+    container_name: nodered
+    ports:
+      - "1880:1880"
+    volumes:
+      - ./nodered:/data
     restart: unless-stopped
 
   cloudflared:

@@ -1,0 +1,59 @@
+[
+    {
+        "id": "7054b7076475972d",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "60b7cfe7856d97ae",
+        "type": "http in",
+        "z": "7054b7076475972d",
+        "name": "",
+        "url": "/api/tacke",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 300,
+        "y": 360,
+        "wires": [
+            [
+                "775326dbccf12ba4"
+            ]
+        ]
+    },
+    {
+        "id": "775326dbccf12ba4",
+        "type": "function",
+        "z": "7054b7076475972d",
+        "name": "Xử lý API sinh viên",
+        "func": "let dssv = [\n    {\n        name: \"Nguyễn Văn An\",\n        money: 350\n    },\n    {\n        name: \"Trần Minh Anh\",\n        money: 520\n    },\n    {\n        name: \"Lê Hoàng Nam\",\n        money: 280\n    },\n    {\n        name: \"Phạm Thu Hà\",\n        money: 680\n    },\n    {\n        name: \"Đỗ Minh Quân\",\n        money: 450\n    },\n    {\n        name: \"Nguyễn Thùy Linh\",\n        money: 320\n    },\n    {\n        name: \"Trần Quốc Việt\",\n        money: 750\n    },\n    {\n        name: \"Hoàng Đức Anh\",\n        money: 190\n    },\n    {\n        name: \"Vũ Ngọc Mai\",\n        money: 580\n    },\n    {\n        name: \"Phan Gia Huy\",\n        money: 420\n    },\n    {\n        name: \"Đặng Khánh Linh\",\n        money: 310\n    },\n    {\n        name: \"Bùi Minh Đức\",\n        money: 890\n    }\n];\n\n\n// ================================\n// THUẬT TOÁN PHÂN LOẠI SINH VIÊN\n// ================================\n\ndssv.forEach(function(sv) {\n\n    if (sv.money >= 600) {\n\n        sv.level = \"Cao\";\n\n    } else if (sv.money >= 400) {\n\n        sv.level = \"Trung bình\";\n\n    } else {\n\n        sv.level = \"Thấp\";\n\n    }\n\n});\n\n\n// ================================\n// TÍNH TỔNG SỐ TIỀN\n// ================================\n\nlet tongTien = 0;\n\ndssv.forEach(function(sv) {\n\n    tongTien += sv.money;\n\n});\n\n\n// ================================\n// ĐẾM SINH VIÊN\n// ================================\n\nlet soSinhVien = dssv.length;\n\nlet soMucCao = dssv.filter(function(sv) {\n    return sv.level === \"Cao\";\n}).length;\n\nlet soMucTrungBinh = dssv.filter(function(sv) {\n    return sv.level === \"Trung bình\";\n}).length;\n\nlet soMucThap = dssv.filter(function(sv) {\n    return sv.level === \"Thấp\";\n}).length;\n\n\n// ================================\n// TRẢ VỀ JSON\n// ================================\n\nmsg.payload = {\n\n    ok: 1,\n\n    msg: \"Lấy danh sách sinh viên thành công\",\n\n    tongSinhVien: soSinhVien,\n\n    tongTien: tongTien,\n\n    thongKe: {\n        mucCao: soMucCao,\n        mucTrungBinh: soMucTrungBinh,\n        mucThap: soMucThap\n    },\n\n    dssv: dssv\n\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 340,
+        "wires": [
+            [
+                "916a957eb191290c"
+            ]
+        ]
+    },
+    {
+        "id": "916a957eb191290c",
+        "type": "http response",
+        "z": "7054b7076475972d",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 730,
+        "y": 360,
+        "wires": []
+    }
+]

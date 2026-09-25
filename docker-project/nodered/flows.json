@@ -1,0 +1,59 @@
+[
+    {
+        "id": "7054b7076475972d",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "60b7cfe7856d97ae",
+        "type": "http in",
+        "z": "7054b7076475972d",
+        "name": "",
+        "url": "/api/tacke",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 300,
+        "y": 360,
+        "wires": [
+            [
+                "775326dbccf12ba4"
+            ]
+        ]
+    },
+    {
+        "id": "775326dbccf12ba4",
+        "type": "function",
+        "z": "7054b7076475972d",
+        "name": "Xử lý API sinh viên",
+        "func": "let dssv = [\n    {\n        name: \"Cốp\",\n        money: 123\n    },\n    {\n        name: \"David\",\n        money: 456\n    },\n    {\n        name: \"An\",\n        money: 350\n    }\n];\n\n// Thuật toán phân loại số tiền\ndssv.forEach(function(sv) {\n    if (sv.money >= 400) {\n        sv.level = \"Cao\";\n    } else {\n        sv.level = \"Thấp\";\n    }\n});\n\n// Tạo dữ liệu JSON trả về\nmsg.payload = {\n    ok: 1,\n    msg: \"thành công\",\n    dssv: dssv\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 340,
+        "wires": [
+            [
+                "916a957eb191290c"
+            ]
+        ]
+    },
+    {
+        "id": "916a957eb191290c",
+        "type": "http response",
+        "z": "7054b7076475972d",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 730,
+        "y": 360,
+        "wires": []
+    }
+]
